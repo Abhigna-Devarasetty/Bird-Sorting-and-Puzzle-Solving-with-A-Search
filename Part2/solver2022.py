@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 # solver2022.py : 2022 Sliding tile puzzle solver
 #
-# Code by: name IU ID
+#Code by: Venkata Sai Abhigna Devarasetty - 2001103388
 #
 # Based on skeleton code by D. Crandall & B551 Staff, Fall 2022
 #

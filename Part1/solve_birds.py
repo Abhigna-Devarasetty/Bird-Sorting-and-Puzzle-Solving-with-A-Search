@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 # solve_birds.py : Bird puzzle solver
 #
-# Code by: name IU ID
+# Code by: Venkata Sai Abhigna Devarasetty - 2001103388
 #
 # Based on skeleton code by D. Crandall & B551 course staff, Fall 2022
 #
