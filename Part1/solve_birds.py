@@ -12,6 +12,7 @@
 
 # !/usr/bin/env python3
 import sys
+from queue import PriorityQueue
 
 N=5
 
@@ -32,33 +33,37 @@ def successors(state):
 
 # Heuristic function:
 # given a state, return an estimate of the number of steps to a goal from that state
+
+# Heuristic function returning the sum of all the misplaced states for every state
 def h(state):
-    return 0
+    ### goal_state for reference
+    target = [1,2,3,4,5]
+    return sum(abs(p1-p2) for p1, p2 in zip(target,state))
 
 #########
 #
 # THE ALGORITHM:
-#
-# This is a generic solver using BFS. 
+# 
 #
 def solve(initial_state):
     fringe = []
-
     fringe += [(initial_state, []),]
+    priority_queue = PriorityQueue()
     while len(fringe) > 0:
         (state, path) = fringe.pop(0)
-        
         if is_goal(state):
             return path+[state,]
-
         for s in successors(state):
-            fringe.append((s, path+[state,]))
-
+            heuristic = h(s)
+            priority_queue.put((heuristic,s))
+        succ_state = priority_queue.get()
+        fringe.append((succ_state[1], path+[state,]))   
     return []
 
 # Please don't modify anything below this line
 #
 if __name__ == "__main__":
+    print('entered')
     if(len(sys.argv) != 2):
         raise(Exception("Error: expected a test case filename"))
 
@@ -67,7 +72,6 @@ if __name__ == "__main__":
         for line in file:
             test_cases.append([ int(i) for i in line.split() ])
     for initial_state in test_cases:
-        	print('From state ' + str(initial_state) + " found goal state by taking path: " + str(solve(initial_state)))
-
-    
+        print('entered for last')
+        print('From state ' + str(initial_state) + " found goal state by taking path: " + str(solve(initial_state)))
 
