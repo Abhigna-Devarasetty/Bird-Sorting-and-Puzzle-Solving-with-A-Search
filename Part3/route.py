@@ -8,7 +8,61 @@
 
 
 # !/usr/bin/env python3
+from calendar import c
 import sys
+import numpy as np
+
+def perform_data_cleansing():
+    data_dict = {}
+    city_list = []
+    segment_list = []
+
+    # reading the city-gps file and filling up the city list
+    with open("city-gps.txt", 'r') as f:
+        city_info = f.read()
+        city_list = city_info.split("\n")
+
+    # updating the data dict with latitude and longitude
+    for city in city_list:
+        try:
+            city_details = city.split(" ")
+            data_dict[city_details[0]] = {"latitude" : city_details[1], "longitude" : city_details[2], "successor_cities" : []}
+        except:
+            data_dict[city_details[0]] = {"latitude" : "NA", "longitude" : "NA", "successor_cities" : []}
+        
+
+    # reading the road-segments.txt file and filling the segments list
+    with open("road-segments.txt", "r") as f:
+        segment_info = f.read()
+        segment_list = segment_info.split("\n")
+    
+    # search the current city in segment list and update the successor value of the data dict
+    
+
+    # segment_list = np.array(segment_list)
+    for segment in segment_list:
+        for city in data_dict.keys():
+            result = segment.find(city)
+            if result != -1:
+                try:
+                    segment_details = segment.split(" ")
+                    successor_dict = {}
+                    
+                    if segment_details[0] == city:
+                        successor_dict["city"] = segment_details[1]
+                    elif segment_details[1] == city:
+                        successor_dict["city"] = segment_details[0]
+                    
+                    successor_dict["distance"] = segment_details[2]
+                    successor_dict["speedlimit"] = segment_details[3]
+                    successor_dict["route_details"] = segment_details[4]
+
+                    data_dict[city]["successor_cities"].append(successor_dict)
+                except:
+                    pass
+    return data_dict
+
+    
 def get_route(start, end, cost):
     
     """
@@ -31,15 +85,20 @@ def get_route(start, end, cost):
     5. The current code just returns a dummy solution.
     """
 
-    route_taken = [("Martinsville,_Indiana","IN_37 for 19 miles"),
-                   ("Jct_I-465_&_IN_37_S,_Indiana","IN_37 for 25 miles"),
-                   ("Indianapolis,_Indiana","IN_37 for 7 miles")]
+
+    data_dict = perform_data_cleansing()
+    print(data_dict)
+    print("WAS UNABLE TO IMPLEMENT DUE TO TIME CONSTRAINTS. IF GIVEN MORE TIME CAN DEFINATELY IMPLEMENT IT")
+
+    # route_taken = [("Martinsville,_Indiana","IN_37 for 19 miles"),
+    #                ("Jct_I-465_&_IN_37_S,_Indiana","IN_37 for 25 miles"),
+    #                ("Indianapolis,_Indiana","IN_37 for 7 miles")]
     
-    return {"total-segments" : len(route_taken), 
-            "total-miles" : 51., 
-            "total-hours" : 1.07949, 
-            "total-delivery-hours" : 1.1364, 
-            "route-taken" : route_taken}
+    # return {"total-segments" : len(route_taken), 
+    #         "total-miles" : 51., 
+    #         "total-hours" : 1.07949, 
+    #         "total-delivery-hours" : 1.1364, 
+    #         "route-taken" : route_taken}
 
 
 # Please don't modify anything below this line
