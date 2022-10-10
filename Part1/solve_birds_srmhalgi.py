@@ -50,6 +50,7 @@ def solve(initial_state):
     fringe = PriorityQueue()
     fringe.put((h(initial_state), (initial_state, [])))
     # fringe += [(h(initial_state), initial_state, []),]
+    step_counter = 0
 
     while fringe:
         # (state, path, heuristic_value) = fringe.pop(0)
@@ -67,11 +68,13 @@ def solve(initial_state):
         # print("--------------------------------------------")
         for s in successor_states:
             # instead of fringe it should be a priority queue sort the queue as per the heuristic function
-            fringe.put((h(s), (s, path+[state,])))
+            fringe.put((h(s) + step_counter, (s, path+[state,])))
             # fringe.sort(reverse=True)
         # print("***************")
         # print(fringe)
 
+        step_counter += 1
+        
     return []
 
 # Please don't modify anything below this line
