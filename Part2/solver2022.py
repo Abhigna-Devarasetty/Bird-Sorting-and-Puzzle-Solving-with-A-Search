@@ -67,7 +67,7 @@ def move_down(board, column):
     new_board = np.transpose(new_board).tolist()
     return (new_board, h(new_board), f"D{column + 1}")
 
-# function to move the board up
+# function to move the outer ring clockwise
 def move_outer_clockwise(board):
     new_board = deepcopy(board)
     new_board[1][0] = board[2][0]
@@ -89,6 +89,7 @@ def move_outer_clockwise(board):
         
     return (new_board, h(new_board), f"Oc")
 
+# function to move the outer ring counter clockwise
 def move_outer_counter_clockwise(board):
     new_board = deepcopy(board)
     new_board[1][0] = board[0][0]
@@ -110,6 +111,7 @@ def move_outer_counter_clockwise(board):
         
     return (new_board, h(new_board), f"Occ")
 
+# function to move inner board clockwise
 def move_inner_clockwise(board):
     new_board = deepcopy(board)
     new_board[1][1] = board[2][1]
@@ -123,6 +125,7 @@ def move_inner_clockwise(board):
     
     return (new_board, h(new_board), f"Ic")
 
+# function to move inner board counter clockwise
 def move_inner_counter_clockwise(board):
     new_board = deepcopy(board)
     new_board[1][1] = board[1][2]
@@ -136,6 +139,7 @@ def move_inner_counter_clockwise(board):
     
     return (new_board, h(new_board), f"Icc")
 
+# heuristic function to calculate the manhattan distance
 def h(board):
     sum_manhattan_distance = 0
     actual_row = -1
@@ -154,6 +158,7 @@ def h(board):
         
     return sum_manhattan_distance
 
+# main function to solve the problem
 from queue import PriorityQueue
 def solve(initial_board):
     """
@@ -167,10 +172,8 @@ def solve(initial_board):
     """
     board = np.array(initial_board).reshape(ROWS, COLS).tolist() 
     
-    # main code for execution.. just to change the heuristic function now...
     fringe = PriorityQueue()
     fringe.put((h((board)), ((board), h(board), [])))
-    initial_value = h(board)
     visited_list = []
     board_heuristic = -1
     
