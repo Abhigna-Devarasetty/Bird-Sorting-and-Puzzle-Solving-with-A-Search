@@ -70,4 +70,5 @@ Implementation of solution goes as follows,
 
 5. Here we also have to calculate one more step for delivery drive, if the delivery truck exceeds a speed limit of 50 mph, then the items in the truch would be destroyed. So the cost of this trip would be more for this. In this case, the driver goes back to source node after reaching the destination. We calculate the distance based on the given formula, troad + p · 2(troad + ttrip)
 
-6. By performing all the above steps until we reach the destination, we will have our distance in many routes, out of that we have a function which calculates and returns the minimum distance between given two locations
+6. For every traversal we get all the successors for the current node,among them we take the one which gives the minimum distance and append into the visited
+7. By performing the above steps we get our final path along with total segments, total miles,total hours,total hours for delivery(if given) based on the given cost.
