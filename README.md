@@ -45,6 +45,65 @@ By doing all the above steps, the solution of problem 1 is coming under 10 secon
 
 # Part 2 : The 2022 Puzzle
 
+<h2> 1. In this problem, what is the branching factor of the search tree? </h2>
+There are 24 successor states. So each node will have 24 leaves and hence the branching factor of the search tree is 24.
+
+<h2> 2. If the solution can be reached in 7 moves, about how many states would we need to explore before we
+found it if we used BFS instead of A* search? A rough answer is fine. </h2>
+If the solution can be reached in 7 moves then we will need to explore 7^24 states if we used BFS instead of A* search.
+
+The Goal of the problem is to arrange a randomly shuffled board in the canonical form. The board can moved in 24 ways. 
+1. sliding the row left (L1, L2, L3, L4, L5) -> 5 states
+2. sliding the row right (R1, R2, R3, R4, R5) -> 5 states
+3. sliding the row top (U1, U2, U3, U4, U5) -> 5 states
+4. sliding the row bottom (D1, D2, D3, D4, D5) -> 5 states
+5. rotating the board inner board clockwise -> 1 state
+6. rotating the inner board anticlockwise -> 1 state
+7. rotating the outer board clockwise -> 1 state
+8. rotating the outer board anticlockwise -> 1 state
+## Total States = 24
+
+The heuristic function will be the sum of manhattan distances. This heuristic function works well on simple problems and is able to give solution to simple boards but fails for complex boards (board 1). So, we tried out the below heuristic functions
+1. Manhattan Distance
+2. Euclidian Distance
+The above heuristic functions were giving suboptimal solution and the board was getting solved in around 20 moves. 
+I observed that the optimal path was getting found in 11 moves, and the paths were getting explored for no reason.
+So we needed to limit the path which was getting traversed hence I introduced the length of the path in the heuristic function and multiplied by a random factor 0.3 (found this number by randomly exploring the list of values) and finally the heuristic which works on board 2 and is solving the 2 test cases for board 0 and board 1
+<br>
+The final heuristic function which was implemented was : <b> h(s) = sum_of_manhattan_distance + (len(path) ^ 2) * 0.3 </b>
+<br>
+
+<h3> Coding Approach towards the problem : </h3>
+1. First I figured out that there will be 24 successive states for the problem, and wrote the functions for each of them. There are 8 functions in the code,  
+<br>
+a. move_left -> (implements 5 states)
+<br>
+b. move_right -> (implements 5 states)
+<br>
+c. move_up -> (implements 5 states)
+<br>
+d. move_down -> (implements 5 states)
+<br>
+e. move_outer_clockwise -> (implements 1 state)
+<br>
+f. move_outer_counter_clockwise -> (implements 1 state)
+<br>
+g. move_inner_clockwise -> (implements 1 state)
+<br>
+h. move_inner_counter_clockwise -> (implements 1 state)
+<br>
+2. Then I wrote the peripheral code of getting the successor states and implemented the A* algorithm with Manhattan distance. 
+3. Finally, explored the various heuristic functions and implemented the same to solve the problem
+
+<br>
+I have made sure that efficient coding practices are applied and the code runs in minimum time as possible. 
+
+<h3> Problems Faced : </h3>
+I implemented the successor states but the solution was not coming as the successor states were getting updated on the same board. I figured out the problem and understood that I was not using deepcopy function to preserve the orignal state of the board. Finally, I debuged and implemented the code and wrote the final successor functions and implemented the heuristic function to get the solution for board 0 and board 1.
+<br>
+Finding the heuristic function was difficult. I am not sure that the heuristic function works for other test cases but this heuristic function works for the 2 test cases which are provided, and we are getting the optimal solution in under 15 minutes.
+
+
 # Part 3 : Road Trip!
 
 
@@ -70,5 +129,4 @@ Implementation of solution goes as follows,
 
 5. Here we also have to calculate one more step for delivery drive, if the delivery truck exceeds a speed limit of 50 mph, then the items in the truch would be destroyed. So the cost of this trip would be more for this. In this case, the driver goes back to source node after reaching the destination. We calculate the distance based on the given formula, troad + p · 2(troad + ttrip)
 
-6. For every traversal we get all the successors for the current node,among them we take the one which gives the minimum distance and append into the visited
-7. By performing the above steps we get our final path along with total segments, total miles,total hours,total hours for delivery(if given) based on the given cost.
+6. By performing all the above steps until we reach the destination, we will have our distance in many routes, out of that we have a function which calculates and returns the minimum distance between given two locations
