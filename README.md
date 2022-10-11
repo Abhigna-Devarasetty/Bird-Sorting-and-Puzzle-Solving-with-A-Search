@@ -52,7 +52,9 @@ The Goal of the problem is to find the best route from given source to destinati
 
 In our given dataset of major highway segments of the United States (and parts of southern Canada and northern Mexico), we have some missing data points too. For these missing points, we are not provided with any latitude or longitude positions for that position. In these cases, we have considered the average latitude and logitude of neighboorhood locations for the given place and placed an approximate latitude and longitude values.
 
-The best route can be found in different ways. Our approach is to find take latitude and longitude for both source and destination and calculate the difference between them, i.e, basically calculating the distance between both the locations.
+The best route can be found in different ways. Our approach is to find the distance between source and destination using Haversine Formula:
+    hav(c)=hav(a-b)+sin(a)sin(b)hav(C)
+Using this formula, we calculating the distance between 
 
 As we have to use a heuristic function and A* algorithm to find best orute. To apply the A* algorithm, we need to define a heuristic function and get the next intermidiate distance based on the priprity decided by the heuristic function. Our Heuristic function would calculate the distanc between the source and destination nodes.
 
@@ -66,6 +68,6 @@ Implementation of solution goes as follows,
 
 4. In the helper functions mentioned in the above step, we add up the current total cost, current cost and heuristic cost after reaching every location.
 
-5. Here we also have to calculate one more step for delivery drive, if the delivery truck exceeds a spped limit of 50 mph, then the items in the truch would be destroyed. So the cost of this trip would be more for this. In this case, the driver goes back to source node after reaching the destination. That would be the double the cost of time and distance.
+5. Here we also have to calculate one more step for delivery drive, if the delivery truck exceeds a speed limit of 50 mph, then the items in the truch would be destroyed. So the cost of this trip would be more for this. In this case, the driver goes back to source node after reaching the destination. We calculate the distance based on the given formula, troad + p · 2(troad + ttrip)
 
-6. By performing all the above steps until we reach the destination, we will have our total time, distance and segmentation cost for the trip.
+6. By performing all the above steps until we reach the destination, we will have our distance in many routes, out of that we have a function which calculates and returns the minimum distance between given two locations
